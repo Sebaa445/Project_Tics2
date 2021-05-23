@@ -37,8 +37,10 @@
                              <div class="form-group">
                                 <v-text-field
                                  v-model="task.accessLevel"
-                                 label="Insert a AccesLevel">
-                                 </v-text-field>
+                                 label="Insert a AccesLevel"
+                                 :rules="rulesAccesslevel"
+                                 hide-details="auto"
+                                 ></v-text-field>
                              </div>
                             <v-card-actions>
                              <template v-if="edit === false">
@@ -108,16 +110,20 @@
         data() {
             return{
                 rulesName:[
-                    value => !!value || 'Required.',
-                    value => (value && value.length >=3) || 'Min 3 characters'
+                    value => !!value || 'The name is required.',
+                    value => (value && value.length >=3 ) || 'Min 3 characters.'
                 ],
                 rulesUsername:[
-                    value => !!value || 'Required.',
-                    value => (value && value.length >=3) || 'Min 3 characters'
+                    value => !!value || 'The username is required.',
+                    value => (value && value.length >=3) || 'Min 3 characters.'
                 ],
                 rulesPassword:[
-                    value => !!value || 'Required.',
-                    value => (value && value.length >=3) || 'Min 3 characters'
+                    value => !!value || 'The password is required.',
+                    value => (value && value.length >=7) || 'Min 7 characters.'
+                ],
+                rulesAccesslevel:[
+                    value => !!value || 'Access Level is required.',
+                    value => (value==1 || value==2) || 'Please Choose 1 or 2'
                 ],
                 task: new Task(),
                 tasks: [],
@@ -167,6 +173,8 @@
                 return Cookies.get("userLogged");
             }
             ,
+            
+                
             sendTask(){
                 if(this.edit === false) {
                     fetch('http://localhost:3000/api/users',{

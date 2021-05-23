@@ -47,6 +47,7 @@ router.post('/login', (req, res, next) => {
         error: 'invalid credentials'
       })
     }
+    
     //IF ALL IS GOOD create a token and send to frontend
     let token = jwt.sign({ userId: user._id}, 'secretkey');
     return res.status(200).json({
@@ -74,7 +75,8 @@ router.post('/',async (req,res) =>{
     password: bcrypt.hashSync(req.body.password, 10),
     accessLevel: req.body.accessLevel    
     })
-    newUser.save(err => {
+   
+    newUser.save(err => {  
     if (err) {
       return res.status(400).json({
         title: 'error',
